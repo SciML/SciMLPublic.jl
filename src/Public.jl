@@ -82,8 +82,6 @@ function _is_valid_macro_expr(expr::Expr)
     return true
 end
 
-# TODO: figure out if we actually want to `export`,
-# or if we just want to mark as public.
-export @public
+@public @public
 
 end # module Public

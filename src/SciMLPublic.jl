@@ -1,4 +1,4 @@
-module Public
+module SciMLPublic
 
 # Based on Compat.jl
 # License: MIT

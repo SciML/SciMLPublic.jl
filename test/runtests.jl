@@ -1,10 +1,10 @@
-import Public
+import SciMLPublic
 import Test
 
 using Test: @testset
 using Test: @test
 
-@testset "Public.jl package" begin
+@testset "SciMLPublic.jl package" begin
     @testset "_is_valid_macro_expr" begin
         good_exprs = [
             :(@hello),
@@ -20,10 +20,10 @@ using Test: @test
             Meta.parse("@foo(@bar)"),
         ]
         for expr in good_exprs
-            @test Public._is_valid_macro_expr(expr)
+            @test SciMLPublic._is_valid_macro_expr(expr)
         end
         for expr in bad_exprs
-            @test !Public._is_valid_macro_expr(expr)
+            @test !SciMLPublic._is_valid_macro_expr(expr)
         end
     end
 end
@@ -32,7 +32,7 @@ end
 
 module TestModule1
 
-using Public: @public
+using SciMLPublic: @public
 
 export f
 @public g

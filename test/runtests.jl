@@ -9,7 +9,7 @@ using Test: @test
         good_exprs = [
             :(@hello),
             Meta.parse("@hello"),
-            Meta.parse("@hello()") # Is this correct?
+            Meta.parse("@hello()"), # Is this correct?
         ]
         bad_exprs = [
             Meta.parse("@foo bar"),
@@ -17,7 +17,7 @@ using Test: @test
             Meta.parse("foo()"),
             Meta.parse("foo(@bar)"),
             Meta.parse("@foo @bar"),
-            Meta.parse("@foo(@bar)")
+            Meta.parse("@foo(@bar)"),
         ]
         for expr in good_exprs
             @test SciMLPublic._is_valid_macro_expr(expr)
@@ -47,7 +47,7 @@ function _public_names(mod::Module)
     result = Base.names(
         mod;
         all = false,
-        imported = false
+        imported = false,
     )
     return result
 end

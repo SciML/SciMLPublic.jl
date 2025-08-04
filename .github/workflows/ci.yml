@@ -39,7 +39,7 @@ jobs:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           persist-credentials: false
-      - uses: julia-actions/setup-julia@ac0d62164df5a47de404f4e96ce86a1a28a28d56
+      - uses: julia-actions/setup-julia@75f97ff30bbe2fe30013a0582312bd7d2e8ffb80
         with:
           version: ${{ matrix.version }}
       - uses: julia-actions/julia-buildpkg@e3eb439fad4f9aba7da2667e7510e4a46ebc46e1

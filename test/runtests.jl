@@ -74,3 +74,8 @@ end
         @test :h ∉ _public_names(TestModule1)
     end
 end
+
+# Allocation tests - run in "nopre" group to avoid precompilation interference
+if get(ENV, "GROUP", "all") == "all" || get(ENV, "GROUP", "all") == "nopre"
+    include("alloc_tests.jl")
+end

@@ -5,7 +5,7 @@
 ```julia
 module HelloWorld
 
-using Public: @public
+using SciMLPublic: @public
 
 @public f
 

@@ -45,7 +45,7 @@ function _get_symbols(expr::Expr)
     for (i, arg) in enumerate(expr.args)
         if arg isa Symbol
             symbols[i] = arg
-        elseif _valid_macro(arg)
+        elseif _is_valid_macro_expr(arg)
             symbols[i] = arg.args[1]
         else
             throw(ArgumentError("cannot mark `$arg` as public. Try `@compat public foo, bar`."))

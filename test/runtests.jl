@@ -9,7 +9,7 @@ using Test: @test
         good_exprs = [
             :(@hello),
             Meta.parse("@hello"),
-            Meta.parse("@hello()") # Is this correct?
+            Meta.parse("@hello()"), # Is this correct?
         ]
         bad_exprs = [
             Meta.parse("@foo bar"),
@@ -17,7 +17,7 @@ using Test: @test
             Meta.parse("foo()"),
             Meta.parse("foo(@bar)"),
             Meta.parse("@foo @bar"),
-            Meta.parse("@foo(@bar)")
+            Meta.parse("@foo(@bar)"),
         ]
         for expr in good_exprs
             @test SciMLPublic._is_valid_macro_expr(expr)
@@ -32,14 +32,14 @@ end
 
 module TestModule1
 
-using SciMLPublic: @public
+    using SciMLPublic: @public
 
-export f
-@public g
+    export f
+    @public g
 
-function f end
-function g end
-function h end
+    function f end
+    function g end
+    function h end
 
 end # module TestModule1
 

@@ -45,7 +45,7 @@ function _get_symbols(expr::Expr)
     for (i, arg) in enumerate(expr.args)
         if arg isa Symbol
             symbols[i] = arg
-        elseif _valid_macro(arg)
+        elseif _is_valid_macro_expr(arg)
             symbols[i] = arg.args[1]
         else
             throw(ArgumentError("cannot mark `$arg` as public. Try `@compat public foo, bar`."))
@@ -67,14 +67,10 @@ function _is_valid_macro_expr(expr::Expr)
     # The first argument must be a Symbol:
     (expr.args[1] isa Symbol) || return false
 
-    # The first argument must begin with `@`
+    # The first argument must begin with `@` and have length >= 2
+    # (because otherwise the first argument would just be `@`, which doesn't make sense)
     arg1_str = string(expr.args[1])
-    (arg1_str[1] == '@') || return false
-
-    # The first argument must have length >= 2
-    # (because otherwise the first argument would just be `@`, which doesn't
-    # make sense)
-    (length(arg1_str) >= 2) || return false
+    (length(arg1_str) >= 2 && arg1_str[1] == '@') || return false
 
     # The second argument must be a `LineNumberNode`
     (expr.args[2] isa LineNumberNode) || return false

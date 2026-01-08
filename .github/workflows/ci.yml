@@ -21,18 +21,9 @@ jobs:
       fail-fast: false
       matrix:
         version:
-          - '1.0' # First LTS
-          - '1.1' # TODO: delete this line
-          - '1.2' # TODO: delete this line
-          - '1.3' # Not an LTS, but a popular lower bound in the ecosystem, due to Artifacts
-          - '1.4' # TODO: delete this line
-          - '1.5' # TODO: delete this line
-          - '1.6' # Second LTS
-          - '1.7' # TODO: delete this line
-          - '1.8' # TODO: delete this line
-          - '1.9' # TODO: delete this line
-          - '1' # automatically expands to latest stable 1.x release of Julia
-          - 'nightly'
+          - 1
+          - 'lts'
+          - 'pre'
         os:
           - ubuntu-latest
     steps:

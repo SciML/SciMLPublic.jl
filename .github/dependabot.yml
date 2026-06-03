@@ -3,11 +3,16 @@ updates:
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
-      interval: "monthly"
+      interval: "weekly"
     open-pull-requests-limit: 100
     labels:
       - "dependencies"
       - "github-actions"
-    ignore:
-      - dependency-name: "crate-ci/typos"
-        update-types: ["version-update:semver-patch", "version-update:semver-minor"]
+  - package-ecosystem: "julia"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    groups:
+      all-julia-packages:
+        patterns:
+          - "*"

@@ -1,14 +1,27 @@
+import SciMLPublic
+import Test
+
+using Test: @testset
+using Test: @test
+
+module TestModule1
+
+    using SciMLPublic: @public
+
+    export f
+    @public g
+
+    function f end
+    function g end
+    function h end
+
+end # module TestModule1
+
 const GROUP = get(ENV, "GROUP", "All")
 
 if GROUP == "QA"
     include(joinpath(@__DIR__, "qa", "qa.jl"))
 else
-    import SciMLPublic
-    import Test
-
-    using Test: @testset
-    using Test: @test
-
     @testset "SciMLPublic.jl package" begin
         @testset "_is_valid_macro_expr" begin
             good_exprs = [
@@ -40,19 +53,6 @@ else
     end
 
     # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-    module TestModule1
-
-        using SciMLPublic: @public
-
-        export f
-        @public g
-
-        function f end
-        function g end
-        function h end
-
-    end # module TestModule1
 
     function _public_names(mod::Module)
         result = Base.names(

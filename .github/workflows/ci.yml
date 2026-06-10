@@ -14,18 +14,6 @@ concurrency:
 permissions:
   contents: read
 jobs:
-  test:
-    strategy:
-      fail-fast: false
-      matrix:
-        version:
-          - "1"
-          - "lts"
-          - "pre"
-        os:
-          - "ubuntu-latest"
-    uses: "SciML/.github/.github/workflows/tests.yml@v1"
-    with:
-      julia-version: ${{ matrix.version }}
-      os: ${{ matrix.os }}
+  tests:
+    uses: "SciML/.github/.github/workflows/grouped-tests.yml@v1"
     secrets: "inherit"

@@ -2,20 +2,7 @@ import SciMLPublic
 import Test
 
 using Test: @testset
-using Test: @test
-
-module TestModule1
-
-    using SciMLPublic: @public
-
-    export f
-    @public g
-
-    function f end
-    function g end
-    function h end
-
-end # module TestModule1
+using SafeTestsets: @safetestset
 
 const GROUP = get(ENV, "GROUP", "All")
 
@@ -23,69 +10,20 @@ if GROUP == "QA"
     include(joinpath(@__DIR__, "qa", "qa.jl"))
 else
     @testset "SciMLPublic.jl package" begin
-        @testset "_is_valid_macro_expr" begin
-            good_exprs = [
-                :(@hello),
-                Meta.parse("@hello"),
-                Meta.parse("@hello()"), # Is this correct?
-            ]
-            bad_exprs = [
-                Meta.parse("@foo bar"),
-                Meta.parse("@foo(bar)"),
-                Meta.parse("foo()"),
-                Meta.parse("foo(@bar)"),
-                Meta.parse("@foo @bar"),
-                Meta.parse("@foo(@bar)"),
-            ]
-            for expr in good_exprs
-                @test SciMLPublic._is_valid_macro_expr(expr)
-            end
-            for expr in bad_exprs
-                @test !SciMLPublic._is_valid_macro_expr(expr)
-            end
+        @safetestset "_is_valid_macro_expr" begin
+            include("macro_expr_tests.jl")
         end
-        @testset "_get_symbols" begin
-            @test SciMLPublic._get_symbols(:foo) == [:foo]
-            @test SciMLPublic._get_symbols(:((a, b, c))) == [:a, :b, :c]
-            @test SciMLPublic._get_symbols(:(@hello)) == [Symbol("@hello")]
-            @test SciMLPublic._get_symbols(:((foo, bar, @hello))) == [:foo, :bar, Symbol("@hello")]
+        @safetestset "_get_symbols" begin
+            include("get_symbols_tests.jl")
+        end
+
+        @safetestset "Tests for TestModule1" begin
+            include("testmodule1_tests.jl")
+        end
+
+        # Allocation tests - run in the Core/All groups
+        @safetestset "Allocation Tests" begin
+            include("alloc_tests.jl")
         end
     end
-
-    # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-    function _public_names(mod::Module)
-        result = Base.names(
-            mod;
-            all = false,
-            imported = false
-        )
-        return result
-    end
-
-    @testset "Tests for TestModule1" begin
-        @test Base.isexported(TestModule1, :f)
-        @test !Base.isexported(TestModule1, :g)
-        @test !Base.isexported(TestModule1, :h)
-
-        # `Base.ispublic` was added in Julia 1.11
-        @static if Base.VERSION >= v"1.11.0-DEV.469"
-            @test Base.ispublic(TestModule1, :f)
-            @test Base.ispublic(TestModule1, :g)
-            @test !Base.ispublic(TestModule1, :h)
-        end
-
-        @static if Base.VERSION >= v"1.11.0-DEV.469"
-            @test :f ∈ _public_names(TestModule1)
-            @test :g ∈ _public_names(TestModule1)
-            @test :h ∉ _public_names(TestModule1)
-        else
-            @test :f ∈ _public_names(TestModule1)
-            @test :g ∉ _public_names(TestModule1)
-            @test :h ∉ _public_names(TestModule1)
-        end
-    end
-
-    # Allocation tests - run in the Core/All groups
-    include("alloc_tests.jl")
 end

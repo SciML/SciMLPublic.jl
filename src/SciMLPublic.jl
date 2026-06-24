@@ -187,6 +187,11 @@ end
 # Shorter alias used internally
 const _valid_macro = _is_valid_macro_expr
 
-@public @public
+# `@public` is this package's entire API (documented), so export it. `export`
+# marks a name as public on all Julia versions (including the pre-1.11 LTS, where
+# native `public` marking is a no-op) and makes it usable via `using SciMLPublic`.
+# (We export rather than `@public @public` because on 1.11+ a name cannot be both
+# exported and `public`-declared.)
+export @public
 
 end # module Public

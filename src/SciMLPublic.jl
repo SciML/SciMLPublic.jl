@@ -72,7 +72,7 @@ using SciMLPublic: @public
 - Julia 1.11+: Uses native `public` keyword functionality
 - Julia <1.11: No-op for compatibility (symbols remain unexported but package will work)
 
-See also: [`export`](@ref)
+See also: `export`.
 """
 @static if Base.VERSION >= v"1.11.0-DEV.469"
     macro public(symbols_expr::Union{Symbol, Expr})

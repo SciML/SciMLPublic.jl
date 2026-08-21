@@ -3,7 +3,11 @@ uuid = "431bcebd-1456-4ced-9d72-93c2757fff0b"
 authors = ["The Julia Project", "contributors"]
 version = "1.2.4"
 
+[deps]
+PrecompileTools = "aea7be01-6a6a-4083-8856-8a6e6704d82a"
+
 [compat]
+PrecompileTools = "1.2"
 SafeTestsets = "0.1, 1"
 SciMLTesting = "2.4"
 Test = "1.10"

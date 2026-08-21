@@ -194,4 +194,14 @@ const _valid_macro = _is_valid_macro_expr
 # exported and `public`-declared.)
 export @public
 
+using PrecompileTools: @compile_workload, @setup_workload
+
+@setup_workload begin
+    @compile_workload begin
+        _get_symbols(:foo)
+        _get_symbols(:(foo, bar))
+        macroexpand(@__MODULE__, :(@public foo))
+    end
+end
+
 end # module Public
